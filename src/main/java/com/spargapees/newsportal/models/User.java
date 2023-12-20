@@ -30,7 +30,7 @@ public class User {
     private String fullname;
 
     @Column(name = "role_id")
-    private Long role_id;
+    private int role_id;
 
     @OneToMany(mappedBy = "user")
     private List<Comments> comments;

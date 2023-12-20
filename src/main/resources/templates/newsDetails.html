@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>News Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">Spargapees</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div th:switch = "${user}">
+                        <a th:case = "${null}" class="nav-link" href="/sign-in">Sign In</a>
+                        <a th:case = "*" class="nav-link" th:href="@{/profile/{id}(id=${user.getId()})}" th:text="${user.getFullname()}"></a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div th:switch = "${user}">
+                        <a th:case = "${null}" class="nav-link" href="/sign-up">Sign Up</a>
+                        <a th:case = "*" class="nav-link" href="/log-out">Log out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title" th:text="${news.getTitle()}"></h2>
+            <p class="card-text" th:text="${news.getContent()}"></p>
+            <p class="card-text">
+                <small class="text-muted" th:text="'Post Date: ' + ${news.getTime()}"></small>
+            </p>
+        </div>
+    </div>
+
+    <div>
+        <div th:switch="${user}">
+            <a th:case = "${null}"></a>
+            <button th:case = "*"class="btn btn-primary" type="button" data-toggle="modal" data-target="#commentModal">Add Comment</button>
+        </div>
+        <h4>Comments</h4>
+
+        <div th:each="comment : ${news.getReversedComments()}" class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    <strong th:text="${comment.getUser().fullname}"></strong>
+                    <span class="text-muted" th:text="' - ' + ${comment.getPost_date()}"></span>
+                </p>
+                <p class="card-text" th:text="${comment.getComment()}"></p>
+            </div>
+        </div>
+
+
+        <div class="modal" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="commentModalLabel">Add Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form action="/addComment" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <textarea id="newComment" name="comment" class="form-control" rows="3" placeholder="Enter your comment"></textarea>
+                                <label style="display: none">
+                                    <input type="number" class="form-control" name = "id" th:value="${news.getId()}" readonly>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

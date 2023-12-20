@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -34,4 +35,10 @@ public class News {
 
     @OneToMany(mappedBy = "news")
     List<Comments> comments;
+
+    public List<Comments> getReversedComments() {
+        List<Comments> comments = this.getComments();
+        Collections.reverse(comments);
+        return comments;
+    }
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>User Information</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">Spargapees</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div th:switch = "${user}">
+                        <a th:case = "${null}" class="nav-link" href="/sign-in">Sign In</a>
+                        <a th:case = "*" class="nav-link" th:href="@{/profile/{id}(id=${user.getId()})}" th:text="${user.getFullname()}"></a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div th:switch = "${user}">
+                        <a th:case = "${null}" class="nav-link" href="/sign-up">Sign Up</a>
+                        <a th:case = "*" class="nav-link" href="/log-out">Log out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">User Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" th:value="${user.email}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" class="form-control" id="fullname" th:value="${user.fullname}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Comments:</label>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="comment : ${user.comments}">
+                        <span th:text="${comment.getNews().getTitle()}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
