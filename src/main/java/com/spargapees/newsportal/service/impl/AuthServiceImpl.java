@@ -56,4 +56,17 @@ public class AuthServiceImpl implements AuthService {
 
         return user;
     }
+
+    @Override
+    public User loginAdmin(UserInputDto input) {
+        User user = userRepository.findByEmail(input.getEmail());
+        System.out.println(user);
+        System.out.println(user.getPassword());
+        System.out.println(user.getRole_id());
+        if (user == null || !Objects.equals(user.getPassword(), hashPassword(input.getPassword())) || user.getRole_id() != 2) {
+            return null;
+        }
+
+        return user;
+    }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="mb-4">News Management</h2>
+
+  <!-- Add News Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      Add News
+    </div>
+    <div class="card-body">
+      <form action="/anews/add" method="post">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add News</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- News List -->
+  <div th:each="news : ${newsList}" class="card mb-4">
+    <div class="card-header">
+      <h5 th:text="${news.title}"></h5>
+    </div>
+    <div class="card-body">
+      <span th:text="${news.content.length() > 100 ? news.content.substring(0, 95) + '...' : news.content}" class="short-text"></span>
+      <p th:text="'Post Date: ' + ${news.time}"></p>
+      <form th:action = "@{/anews/{id}(id=${news.id})}" method="get"><button type="submit" class="btn btn-primary ">Read more</button></form>
+      <form th:action="@{/anews/delete/{id}(id=${news.id})}" method="post"><button type="submit" class="btn btn-danger mt-2">Delete</button></form>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bootstrap JS and Popper.js CDN -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

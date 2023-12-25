@@ -33,7 +33,7 @@ public class News {
     @ManyToMany(mappedBy = "news")
     List<NewsCategories> categories;
 
-    @OneToMany(mappedBy = "news")
+    @OneToMany(mappedBy = "news", cascade = CascadeType.ALL)
     List<Comments> comments;
 
     public List<Comments> getReversedComments() {

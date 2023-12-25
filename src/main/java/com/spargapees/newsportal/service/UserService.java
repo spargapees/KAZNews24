@@ -5,4 +5,5 @@ import com.spargapees.newsportal.models.User;
 
 public interface UserService {
     public User getUserById(Long id);
+
 }

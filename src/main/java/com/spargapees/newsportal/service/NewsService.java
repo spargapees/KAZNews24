@@ -8,5 +8,8 @@ import java.util.List;
 public interface NewsService {
     public List<News> getNews();
     public News getNewsById(Long id);
+    public void deleteNewsById(Long id);
     public void addCommentToNews(Long id, Comments comments);
+    public void deleteCommentFromNews(Long id, Comments comments);
+    public void addNews(News news);
 }

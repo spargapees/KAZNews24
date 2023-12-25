@@ -11,11 +11,21 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CommentsServiceImpl implements CommentsService {
     private CommentsRepository commentsRepository;
-    private NewsService newsService;
+
 
     @Override
     public void addComment(Comments comments) {
-        newsService.addCommentToNews(comments.getNews().getId(), comments);
+        //newsService.addCommentToNews(comments.getNews().getId(), comments);
         commentsRepository.save(comments);
     }
+
+    @Override
+    public void deleteCommentById(Long id) {
+        Comments comments = commentsRepository.getReferenceById(id);
+        if (comments != null) {
+            //newsService.deleteCommentFromNews(comments.getNews().getId(), comments);
+            commentsRepository.deleteById(comments.getId());
+        }
+    }
+
 }
